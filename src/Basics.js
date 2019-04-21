@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Image, View, Text } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+// import HomeScreen from './HomeScreen';
+import { createStackNavigator, createAppContainer,createTabNavigator,createBottomTabNavigator,createDrawerNavigator } from 'react-navigation';
 
 class LogoTitle extends React.Component {
   render() {
@@ -32,6 +33,10 @@ class HomeScreen extends React.Component {
             });
           }}
         />
+        <Button
+            title="Drawer Navigation"
+            onPress={() => this.props.navigation.toggleDrawer()}
+          />
       </View>
     );
   }
@@ -157,6 +162,35 @@ class Education extends React.Component {
       );
     }
   }
+  const TabNavigator = createBottomTabNavigator(
+    {
+        Home: {
+          screen: HomeScreen,
+        },
+        Details: {
+          screen: DetailsScreen,
+        },
+        Education:{
+            screen: Education,
+        },
+        Experience:{
+            screen: Experience,
+        },
+      },
+      {
+        initialRouteName: 'Home',
+        defaultNavigationOptions: {
+          headerStyle: {
+            backgroundColor: '#3398FF',
+             
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        },
+    });
+  
 const RootStack = createStackNavigator(
   {
     Home: {
@@ -186,8 +220,39 @@ const RootStack = createStackNavigator(
     },
   }
 );
+const MyDrawerNavigator = createDrawerNavigator({
+    Home: {
+      screen: HomeScreen,
+    },
+    Details: {
+      screen: DetailsScreen,
+    },
+    Education:{
+        screen: Education,
+    },
+    Experience:{
+        screen: Experience,
+    },
+  },
+  {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#3398FF',
+         
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  });
+  
+const Drawer = createAppContainer(MyDrawerNavigator);
+const Tab   = createAppContainer(TabNavigator);
+const MyApp = createAppContainer(RootStack);
 
-const AppContainer = createAppContainer(RootStack);
+const AppContainer = createAppContainer(Tab);
 
 export default class App extends React.Component {
   render() {
